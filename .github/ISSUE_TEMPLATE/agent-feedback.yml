@@ -1,0 +1,178 @@
+name: Agent Feedback (Phase 3)
+description: Feedback on another team's AI feedback agent
+title: "[Agent Feedback] Team [Your Team Name] → Team [Their Team Name]"
+labels: ["phase-3", "cross-testing", "feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Agent Testing Feedback
+        
+        Use this template to provide structured feedback on another team's agent during **Phase 3: Cross-Testing**.
+        
+  - type: input
+    id: your-team
+    attributes:
+      label: Your Team Name
+      description: What team are you on?
+      placeholder: e.g., Team Rubric Rangers
+    validations:
+      required: true
+      
+  - type: input
+    id: their-team
+    attributes:
+      label: Team Being Evaluated
+      description: Whose agent did you test?
+      placeholder: e.g., Team Feedback Ninjas
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-went-well
+    attributes:
+      label: ✅ What the Agent Did Well
+      description: List 2-3 specific strengths of this agent
+      placeholder: |
+        1. The agent gave very specific feedback, citing exact sentences
+        2. It used the rubric dimensions explicitly
+        3. The tone was encouraging but honest
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: feedback-type
+    attributes:
+      label: 🎯 Type of Feedback Prioritized
+      description: What kind of feedback did the agent focus on? (Check all that apply)
+      options:
+        - label: Corrective (direct corrections of errors)
+        - label: Evaluative (scoring or judging quality)
+        - label: Descriptive (explaining what's present)
+        - label: Questioning (asking students to reflect)
+        - label: Suggestive (offering alternatives)
+        - label: Explanatory (teaching concepts)
+        - label: Other (please explain below)
+
+  - type: textarea
+    id: feedback-type-explanation
+    attributes:
+      label: Explanation of Feedback Type
+      description: Elaborate on the types of feedback you checked above
+      placeholder: The agent mainly asked questions rather than giving direct answers, which made me think more deeply...
+
+  - type: dropdown
+    id: rubric-usage
+    attributes:
+      label: 📊 Did the Agent Use the Rubric?
+      description: How well did the agent integrate the Universal Science Writing Rubric?
+      options:
+        - Yes, extensively
+        - Yes, somewhat
+        - Barely
+        - Not at all
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: rubric-integration
+    attributes:
+      label: How Was the Rubric Integrated?
+      description: Check all that apply
+      options:
+        - label: Provided scores for each dimension
+        - label: Referenced specific rubric criteria
+        - label: Used rubric language/terminology
+        - label: Organized feedback by rubric dimensions
+        - label: Asked questions related to rubric criteria
+        - label: Compared to rubric examples
+        - label: Didn't meaningfully use the rubric
+        - label: Other (explain below)
+
+  - type: textarea
+    id: rubric-observations
+    attributes:
+      label: Specific Observations About Rubric Use
+      description: Give concrete examples of how the agent did or didn't use the rubric
+      placeholder: |
+        The agent explicitly said "Looking at Dimension C (Scientific Content)..." and then referenced the Mastery criteria from the rubric.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-was-missing
+    attributes:
+      label: ❌ What Was Missing or Unhelpful
+      description: What could make this agent more effective?
+      placeholder: |
+        Missing elements:
+        - Didn't provide concrete examples
+        - No suggestions for how to revise
+        
+        Unhelpful aspects:
+        - Feedback was too vague
+        - Didn't prioritize what to fix first
+    validations:
+      required: true
+
+  - type: textarea
+    id: example-quote
+    attributes:
+      label: Concrete Example
+      description: Quote a specific piece of feedback from the agent and explain why it did or didn't work
+      placeholder: |
+        The agent said: "Your summary needs more detail."
+        
+        This didn't work because it wasn't specific about WHAT detail or WHERE to add it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestions
+    attributes:
+      label: 💡 Suggestions for Improvement
+      description: If you were on this team, what would you change? List 1-3 priorities.
+      placeholder: |
+        Priority 1: Add specific examples when giving feedback
+        Priority 2: Reference rubric dimensions explicitly
+        Priority 3: Provide one concrete revision suggestion
+    validations:
+      required: true
+
+  - type: dropdown
+    id: would-use-again
+    attributes:
+      label: 🎓 Would You Use This Agent Again?
+      options:
+        - Yes, definitely
+        - Yes, with some changes
+        - Maybe
+        - Probably not
+        - No
+    validations:
+      required: true
+
+  - type: textarea
+    id: why-would-use
+    attributes:
+      label: Why or Why Not?
+      description: Explain your answer to the previous question
+      placeholder: I would use it because the feedback was actionable and helped me see exactly what to improve...
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-comments
+    attributes:
+      label: Additional Comments
+      description: Any other observations, questions, or compliments?
+      placeholder: Really creative approach! I especially liked...
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        **Thank you for providing feedback!** 🚀
+        
+        Your insights will help the team improve their agent during Phase 5 (Iteration).

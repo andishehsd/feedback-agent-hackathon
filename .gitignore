@@ -1,0 +1,63 @@
+# Gitignore for Feedback Agent Hackathon
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Personal notes (students may want to keep these local)
+notes/
+scratch/
+.personal/
+
+# Environment variables
+.env
+.env.local
+
+# Build outputs (if students experiment with tooling)
+dist/
+build/
+out/
+
+# Dependencies (if students add any)
+node_modules/
+vendor/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Research data (should be managed separately)
+data/
+research-data/
+participant-data/
+
+# Keep these
+!.github/
+!.github/ISSUE_TEMPLATE/
+!.github/copilot-instructions.md
