@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Can AI Give Good Feedback? Build One and Find Out</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.css">
+  <link rel="stylesheet" href="https://media.staging.feedbackfruits.com/7e0e71ad-6929-4715-b228-d60720f98deb.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2/src/regular/style.css">
+  <style>
+    body { background: #000; margin: 0; }
+    .reveal .slides { background: transparent; }
+
+    /* Dual logo layout for cover slide */
+    .fbf-logo-row {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .fbf-logo-row img {
+      width: auto !important;
+      max-width: none !important;
+    }
+    .fbf-logo-row img.fbf-logo {
+      height: 36px !important;
+      max-height: 36px !important;
+      margin-bottom: 0 !important;
+      padding-right: 12px;
+    }
+    .fbf-logo-row img.cohost-logo {
+      height: 100px !important;
+      max-height: 100px !important;
+    }
+    .fbf-logo-row .logo-separator {
+      font-size: 32px;
+      opacity: 0.5;
+      color: #fff;
+      align-self: center;
+      line-height: 1;
+    }
+
+    /* Cover metadata */
+    .fbf-cover-meta {
+      font-size: 0.65em;
+      opacity: 0.85;
+      margin-top: 32px;
+      line-height: 1.6;
+    }
+
+    /* GitHub link cards */
+    .gh-link-cards {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .gh-link-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(35, 118, 40, 0.12);
+      border: 2px solid rgba(35, 118, 40, 0.3);
+      color: #237628;
+      text-decoration: none;
+      font-size: 0.55em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .gh-link-card:hover {
+      background: rgba(35, 118, 40, 0.2);
+      border-color: #237628;
+      color: #237628;
+    }
+    .gh-link-card i {
+      font-size: 1.3em;
+    }
+    .theme-green .gh-link-card,
+    .theme-blue .gh-link-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+    .theme-green .gh-link-card:hover,
+    .theme-blue .gh-link-card:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: #fff;
+      color: #fff;
+    }
+
+    /* Profile photos with rounded corners */
+    .fbf-person-photo-round {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 12px;
+      display: block;
+      border: 3px solid #e0e0e0;
+    }
+
+    /* Phase badge */
+    .phase-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 0.5em;
+      margin-bottom: 8px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .theme-white .phase-badge,
+    .theme-light-green .phase-badge {
+      background: rgba(35, 118, 40, 0.12);
+      color: #237628;
+    }
+
+    /* Iframe container for embedded pages */
+    .gh-iframe-container {
+      width: 100%;
+      height: 320px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid rgba(0,0,0,0.1);
+      margin-top: 8px;
+      position: relative;
+      background: #f6f8fa;
+    }
+    .gh-iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .gh-iframe-fallback {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      background: #f6f8fa;
+      color: #333;
+      font-size: 0.5em;
+    }
+    .gh-iframe-fallback i { font-size: 3em; color: #237628; }
+
+    /* Accomplishment list */
+    .accomplishment-list {
+      text-align: left;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .accomplishment-list li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: Cover -->
+      <section class="fbf-slide fbf-centered theme-green has-fan fan-top-right">
+        <div class="fbf-logo-row">
+          <img src="https://media.staging.feedbackfruits.com/641e400b-0752-44db-8138-c32286fc87ef.png" alt="FeedbackFruits" class="fbf-logo">
+          <span class="logo-separator">&times;</span>
+          <img src="assets/amstechweek-logo-white.png" alt="Amsterdam Tech Week" class="cohost-logo">
+        </div>
+        <h1 class="fbf-title">Can AI Give Good Feedback?</h1>
+        <p class="fbf-subtitle">Build One and Find Out</p>
+        <p class="fbf-cover-meta">
+          Amsterdam Tech Week Hackathon<br>
+          June 17, 2026 &mdash; 18:00&ndash;21:00 &mdash; FeedbackFruits, Amsterdam
+        </p>
+        <aside class="notes">Welcome everyone! This is a 3-hour hackathon where participants will design, test, and refine AI-powered feedback agents for science writing. Co-hosted by FeedbackFruits and Amsterdam Tech Week.</aside>
+      </section>
+
+      <!-- SLIDE 2: Meet Your Facilitators -->
+      <section class="fbf-slide theme-white">
+        <h1>Your Facilitators</h1>
+        <div class="fbf-content fbf-content-centered">
+          <div class="fbf-people-grid">
+            <div class="fbf-person">
+              <img src="assets/mary-jo-diepeveen.jpg" alt="Mary-Jo Diepeveen" class="fbf-person-photo-round">
+              <p class="fbf-person-name">Mary-Jo Diepeveen</p>
+              <p class="fbf-person-role">VU Amsterdam</p>
+            </div>
+            <div class="fbf-person">
+              <img src="assets/bas-hintemann.jpg" alt="Bas Hintemann" class="fbf-person-photo-round">
+              <p class="fbf-person-name">Bas Hintemann</p>
+              <p class="fbf-person-role">FeedbackFruits</p>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">Introduce the facilitators: Mary-Jo (VU Amsterdam) and Bas (FeedbackFruits). Share backgrounds and what brought you to this research on AI feedback.</aside>
+      </section>
+
+      <!-- SLIDE 3: Agenda -->
+      <section class="fbf-slide theme-green">
+        <h1>Tonight&rsquo;s Agenda</h1>
+        <div class="fbf-content fbf-content-centered">
+          <ul class="fbf-bullets">
+            <li><strong>18:00&ndash;18:15</strong> &mdash; Welcome &amp; Introduction</li>
+            <li><strong>18:15&ndash;19:05</strong> &mdash; Phase 1: Orientation &amp; Elicitation</li>
+            <li><strong>19:05&ndash;19:50</strong> &mdash; Phase 2: Agent Design</li>
+            <li><strong>19:50&ndash;20:15</strong> &mdash; Phase 3: Cross-Testing</li>
+            <li><strong>20:15&ndash;20:40</strong> &mdash; Phase 4: Iteration</li>
+            <li><strong>20:40&ndash;21:00</strong> &mdash; Phase 5: Community Testing &amp; Reflection</li>
+          </ul>
+        </div>
+        <aside class="notes">Walk through the agenda. Emphasize this is hands-on: participants will write, design, build, test, and iterate. Each phase builds on the previous one.</aside>
+      </section>
+
+      <!-- SLIDE 4: The Challenge -->
+      <section class="fbf-slide fbf-centered theme-blue has-fan fan-scattered">
+        <h1 class="fbf-title">Can you build an AI agent that gives better feedback than your peers?</h1>
+        <aside class="notes">This is the core challenge. Participants will design AI feedback agents for science writing, test each other's agents, and discover what makes AI feedback effective.</aside>
+      </section>
+
+      <!-- SLIDE 5: What You'll Do -->
+      <section class="fbf-slide theme-white">
+        <h1>What You&rsquo;ll Do</h1>
+        <div class="fbf-columns-3 fbf-content">
+          <div class="fbf-icon-block">
+            <i class="ph ph-pencil-line"></i>
+            <h3>Experience</h3>
+            <p>Write summaries and give feedback yourself before building AI</p>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-robot"></i>
+            <h3>Build</h3>
+            <p>Design an AI feedback agent using GitHub Copilot instructions</p>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-arrows-clockwise"></i>
+            <h3>Iterate</h3>
+            <p>Test, get peer feedback, improve, and discover what works</p>
+          </div>
+        </div>
+        <aside class="notes">Three main activities: first experience giving feedback manually, then build an AI agent, then iterate based on peer evaluation.</aside>
+      </section>
+
+      <!-- SLIDE 6: Research Context -->
+      <section class="fbf-slide theme-light-green">
+        <h1>About This Research</h1>
+        <div class="fbf-content fbf-content-centered">
+          <p>This hackathon is part of a study on <strong>AI-mediated feedback design</strong>.</p>
+          <p>Your participation helps us understand what learners value in AI feedback systems.</p>
+          <div class="fbf-callout">Participation is voluntary. See <strong>CONSENT.md</strong> for details.</div>
+        </div>
+        <aside class="notes">Briefly mention the research context. Hand out consent forms. Emphasize participation is voluntary and data will be anonymized.</aside>
+      </section>
+
+      <!-- ==================== PHASE 1 ==================== -->
+
+      <!-- SLIDE 7: Phase 1 Divider -->
+      <section class="fbf-slide fbf-v-center theme-green has-fan fan-top-right">
+        <div class="phase-badge">18:15 &ndash; 19:05</div>
+        <h1 class="fbf-title">Phase 1: Orientation &amp; Elicitation</h1>
+        <p class="fbf-subtitle">Experience the feedback task before building the AI</p>
+        <aside class="notes">Transition to Phase 1. Participants will read an article, write summaries, share reactions, learn the rubric, and fork the repo.</aside>
+      </section>
+
+      <!-- SLIDE 8: Phase 1 - Read & Write -->
+      <section class="fbf-slide theme-white">
+        <h1>Step 1: Read &amp; Write (15 min)</h1>
+        <div class="fbf-content fbf-content-numbered">
+          <div class="fbf-numbered-item">
+            <span class="fbf-number">1</span>
+            <div class="fbf-item-content">
+              <h3>Read the Article</h3>
+              <p>Mars geology findings in <strong>assets/article.md</strong></p>
+            </div>
+          </div>
+          <div class="fbf-numbered-item">
+            <span class="fbf-number">2</span>
+            <div class="fbf-item-content">
+              <h3>Write a Summary</h3>
+              <p>50&ndash;100 words covering the main scientific findings</p>
+            </div>
+          </div>
+          <div class="fbf-numbered-item">
+            <span class="fbf-number">3</span>
+            <div class="fbf-item-content">
+              <h3>Post in Discussions</h3>
+              <p>Share your summary as a comment in the pinned discussion</p>
+            </div>
+          </div>
+        </div>
+        <div class="gh-link-cards">
+          <a class="gh-link-card" href="https://github.com/madiepev/feedback-agent-hackathon/discussions" target="_blank"><i class="ph ph-chat-circle-dots"></i> Open Discussions</a>
+          <a class="gh-link-card" href="https://github.com/madiepev/feedback-agent-hackathon/blob/main/assets/article.md" target="_blank"><i class="ph ph-article"></i> Read Article</a>
+        </div>
+        <aside class="notes">Direct participants to the Discussions tab. They should read the Mars article and post a 50-100 word summary. Give 15 minutes for this step.</aside>
+      </section>
+
+      <!-- SLIDE 9: Phase 1 - Share & Discuss -->
+      <section class="fbf-slide theme-light-green">
+        <h1>Steps 2&ndash;3: React &amp; Discuss (15 min)</h1>
+        <div class="fbf-columns-2 fbf-content">
+          <div class="fbf-icon-block">
+            <i class="ph ph-thumbs-up"></i>
+            <h3>Share Reactions</h3>
+            <ul class="fbf-bullets">
+              <li>Refresh the discussion page</li>
+              <li>Read your peers&rsquo; summaries</li>
+              <li>React with thumbs-up to the strongest ones</li>
+            </ul>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-users-three"></i>
+            <h3>Group Discussion</h3>
+            <ul class="fbf-bullets">
+              <li>What made highly-rated summaries effective?</li>
+              <li>What specific features stood out?</li>
+              <li>How could other summaries improve?</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="notes">Give 5 minutes for reactions, then facilitate a 10-minute discussion. Read top summaries aloud. Collect themes: accuracy, clarity, evidence, completeness. This builds intuition before introducing the rubric.</aside>
+      </section>
+
+      <!-- SLIDE 10: Phase 1 - The Rubric -->
+      <section class="fbf-slide theme-blue has-fan fan-bottom-left">
+        <h1>The Universal Science Writing Rubric</h1>
+        <div class="fbf-columns-3 fbf-content" style="margin-top: 8px;">
+          <div class="fbf-icon-block">
+            <i class="ph ph-flask"></i>
+            <h3>Scientific Content</h3>
+            <p>Accuracy and completeness of scientific information</p>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-lightbulb"></i>
+            <h3>Interpretation</h3>
+            <p>Explaining significance and implications</p>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-users-three"></i>
+            <h3>Audience Targeting</h3>
+            <p>Appropriate language and detail level</p>
+          </div>
+        </div>
+        <div class="fbf-columns-2 fbf-content" style="margin-top: 0; padding-top: 0;">
+          <div class="fbf-icon-block">
+            <i class="ph ph-list-checks"></i>
+            <h3>Organization</h3>
+            <p>Logical flow and structure</p>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-pen-nib"></i>
+            <h3>Writing Quality</h3>
+            <p>Grammar and mechanics</p>
+          </div>
+        </div>
+        <div class="gh-link-cards">
+          <a class="gh-link-card" href="https://github.com/madiepev/feedback-agent-hackathon/blob/main/assets/rubric.md" target="_blank"><i class="ph ph-book-open"></i> Open Full Rubric</a>
+        </div>
+        <aside class="notes">Walk through each dimension. Connect back to the patterns participants identified in their own discussion. The rubric formalizes what they already discovered intuitively. Open rubric.md for reference.</aside>
+      </section>
+
+      <!-- SLIDE 11: Phase 1 - Evaluate & Fork -->
+      <section class="fbf-slide theme-white">
+        <h1>Evaluate &amp; Fork (12 min)</h1>
+        <div class="fbf-columns-2 fbf-content">
+          <div class="fbf-icon-block">
+            <i class="ph ph-chart-bar"></i>
+            <h3>Practice Evaluation</h3>
+            <p>Rate the example summary using polls in Discussion 2 &mdash; one poll per rubric dimension</p>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-git-fork"></i>
+            <h3>Fork the Repository</h3>
+            <p>Click <strong>Fork</strong> at the top of the repo &mdash; you&rsquo;ll use peer summaries as test data for your agent</p>
+          </div>
+        </div>
+        <div class="gh-link-cards">
+          <a class="gh-link-card" href="https://github.com/madiepev/feedback-agent-hackathon/discussions" target="_blank"><i class="ph ph-chat-circle-dots"></i> Evaluate in Discussions</a>
+          <a class="gh-link-card" href="https://github.com/madiepev/feedback-agent-hackathon/fork" target="_blank"><i class="ph ph-git-fork"></i> Fork Repository</a>
+        </div>
+        <aside class="notes">Two activities: first evaluate the example summary using the 5 polls (3-4 min), then fork the repository (7 min). Help with GitHub setup if needed.</aside>
+      </section>
+
+      <!-- SLIDE 12: Key Insight -->
+      <section class="fbf-slide fbf-centered theme-yellow">
+        <h1 class="fbf-title">You&rsquo;ve now experienced what AI feedback agents need to do</h1>
+        <p class="fbf-subtitle">Recognize quality &bull; Explain why &bull; Suggest improvements</p>
+        <aside class="notes">Pause and reflect. Participants have just done manually what they'll now build an AI to do. This is the bridge to Phase 2.</aside>
+      </section>
+
+      <!-- ==================== PHASE 2 ==================== -->
+
+      <!-- SLIDE 13: Phase 2 Divider -->
+      <section class="fbf-slide fbf-v-center theme-blue has-fan fan-top-right">
+        <div class="phase-badge">19:05 &ndash; 19:50</div>
+        <h1 class="fbf-title">Phase 2: Agent Design</h1>
+        <p class="fbf-subtitle">Build your AI feedback agent using GitHub Copilot instructions</p>
+        <aside class="notes">Transition to Phase 2. Teams will discuss strategy, write instruction files, test with Copilot Chat, and commit. 45 minutes total.</aside>
+      </section>
+
+      <!-- SLIDE 14: Phase 2 - Design Decisions -->
+      <section class="fbf-slide theme-white">
+        <h1>Key Design Decisions</h1>
+        <div class="fbf-columns-3 fbf-content" style="font-size: 0.9em;">
+          <div>
+            <h3><i class="ph ph-chat-circle"></i> Feedback Type</h3>
+            <ul class="fbf-bullets">
+              <li>Corrections</li>
+              <li>Questions</li>
+              <li>Guidance</li>
+              <li>Mix of all three?</li>
+            </ul>
+          </div>
+          <div>
+            <h3><i class="ph ph-gauge"></i> Rubric Usage</h3>
+            <ul class="fbf-bullets">
+              <li>Score each dimension?</li>
+              <li>Focus on weakest?</li>
+              <li>Evaluate all five?</li>
+            </ul>
+          </div>
+          <div>
+            <h3><i class="ph ph-microphone-stage"></i> Tone &amp; Style</h3>
+            <ul class="fbf-bullets">
+              <li>Coach / Peer / Editor</li>
+              <li>Quote specific text?</li>
+              <li>All at once or step-by-step?</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="notes">Teams should discuss these decisions before writing code. Encourage diversity of approaches across teams for richer cross-testing later.</aside>
+      </section>
+
+      <!-- SLIDE 15: Phase 2 - Create Instructions -->
+      <section class="fbf-slide theme-light-green">
+        <h1>Create Your Instruction File (20 min)</h1>
+        <div class="fbf-content fbf-content-numbered">
+          <div class="fbf-numbered-item">
+            <span class="fbf-number">1</span>
+            <div class="fbf-item-content">
+              <h3>Open Copilot Chat</h3>
+              <p>Click <strong>+</strong> &rarr; Instructions &rarr; Configure &rarr; + New Instruction file</p>
+            </div>
+          </div>
+          <div class="fbf-numbered-item">
+            <span class="fbf-number">2</span>
+            <div class="fbf-item-content">
+              <h3>Name Your File</h3>
+              <p><code>.github/instructions/group[X]-feedback-agent.md</code></p>
+            </div>
+          </div>
+          <div class="fbf-numbered-item">
+            <span class="fbf-number">3</span>
+            <div class="fbf-item-content">
+              <h3>Write Your Agent</h3>
+              <p>Define role, process, rubric usage, feedback style, what to include/avoid</p>
+            </div>
+          </div>
+        </div>
+        <div class="gh-link-cards">
+          <a class="gh-link-card" href="https://github.com/madiepev/feedback-agent-hackathon/blob/main/phase2-agent-design.md" target="_blank"><i class="ph ph-file-text"></i> Phase 2 Guide</a>
+        </div>
+        <aside class="notes">Walk through the setup steps. Show the template from phase2-agent-design.md. Remind teams to name files with their group number.</aside>
+      </section>
+
+      <!-- SLIDE 16: Phase 2 - Test & Commit -->
+      <section class="fbf-slide theme-white">
+        <h1>Test &amp; Commit (15 min)</h1>
+        <div class="fbf-columns-2 fbf-content">
+          <div class="fbf-icon-block">
+            <i class="ph ph-play-circle"></i>
+            <h3>Test Your Agent</h3>
+            <ul class="fbf-bullets">
+              <li>Paste your Phase 1 summary</li>
+              <li>Ask: &ldquo;Give me feedback on this summary&rdquo;</li>
+              <li>Is it helpful? Specific? Uses rubric?</li>
+              <li>Iterate until satisfied</li>
+            </ul>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-git-commit"></i>
+            <h3>Commit Changes</h3>
+            <ul class="fbf-bullets">
+              <li>Navigate to your file</li>
+              <li>Click <strong>Commit changes</strong></li>
+              <li>Message: &ldquo;Add feedback agent v1&rdquo;</li>
+              <li>Your agent is live!</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="notes">Mid-phase check-in at 19:25: have teams tested their agent yet? Final check at 19:45: make sure everyone has committed.</aside>
+      </section>
+
+      <!-- ==================== PHASE 3 ==================== -->
+
+      <!-- SLIDE 17: Phase 3 Divider -->
+      <section class="fbf-slide fbf-v-center theme-green has-fan fan-scattered">
+        <div class="phase-badge">19:50 &ndash; 20:15</div>
+        <h1 class="fbf-title">Phase 3: Cross-Testing</h1>
+        <p class="fbf-subtitle">Evaluate another team&rsquo;s agent</p>
+        <aside class="notes">Announce team assignments: Team 1 tests Team 2, Team 2 tests Team 3, etc. Teams navigate to the assigned repo and test with their own summary.</aside>
+      </section>
+
+      <!-- SLIDE 18: Phase 3 - 5 Evaluation Criteria -->
+      <section class="fbf-slide theme-white">
+        <h1>5 Evaluation Criteria</h1>
+        <div class="fbf-columns-3 fbf-content" style="font-size: 0.9em;">
+          <div class="fbf-icon-block">
+            <i class="ph ph-eye"></i>
+            <h3>Understandability</h3>
+            <p>Could you comprehend the feedback?</p>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-target"></i>
+            <h3>Specificity</h3>
+            <p>Concrete examples vs. vague statements?</p>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-check-circle"></i>
+            <h3>Validity</h3>
+            <p>Accurate and aligned with the rubric?</p>
+          </div>
+        </div>
+        <div class="fbf-columns-2 fbf-content" style="margin-top: 0; padding-top: 0;">
+          <div class="fbf-icon-block">
+            <i class="ph ph-hand-pointing"></i>
+            <h3>Actionability</h3>
+            <p>Could you use it to actually improve?</p>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-heart"></i>
+            <h3>Affective Quality</h3>
+            <p>Did it motivate you to improve?</p>
+          </div>
+        </div>
+        <aside class="notes">Walk through the 5 criteria. These are research-based dimensions for evaluating feedback quality. Teams will rate each on a 5-point scale with evidence.</aside>
+      </section>
+
+      <!-- SLIDE 19: Phase 3 - Submit Feedback -->
+      <section class="fbf-slide theme-light-green">
+        <h1>Submit Feedback via GitHub Issue</h1>
+        <div class="fbf-content fbf-content-numbered">
+          <div class="fbf-numbered-item">
+            <span class="fbf-number">1</span>
+            <div class="fbf-item-content">
+              <h3>Go to the Main Repository</h3>
+              <p>Not the team&rsquo;s fork &mdash; use the main hackathon repo</p>
+            </div>
+          </div>
+          <div class="fbf-numbered-item">
+            <span class="fbf-number">2</span>
+            <div class="fbf-item-content">
+              <h3>Create a New Issue</h3>
+              <p>Select the <strong>&ldquo;Agent Feedback (Phase 3)&rdquo;</strong> template</p>
+            </div>
+          </div>
+          <div class="fbf-numbered-item">
+            <span class="fbf-number">3</span>
+            <div class="fbf-item-content">
+              <h3>Rate &amp; Provide Evidence</h3>
+              <p>Rate all 5 criteria (1&ndash;5) with specific examples from the feedback</p>
+            </div>
+          </div>
+        </div>
+        <div class="gh-link-cards">
+          <a class="gh-link-card" href="https://github.com/madiepev/feedback-agent-hackathon/issues/new/choose" target="_blank"><i class="ph ph-note-pencil"></i> Submit Feedback Issue</a>
+        </div>
+        <aside class="notes">Direct teams to the Issues tab. Emphasize using the template and providing specific evidence for each rating, not just numbers.</aside>
+      </section>
+
+      <!-- ==================== PHASE 4 ==================== -->
+
+      <!-- SLIDE 20: Phase 4 Divider -->
+      <section class="fbf-slide fbf-v-center theme-blue has-fan fan-bottom-left">
+        <div class="phase-badge">20:15 &ndash; 20:40</div>
+        <h1 class="fbf-title">Phase 4: Iteration</h1>
+        <p class="fbf-subtitle">Improve based on feedback received</p>
+        <aside class="notes">Teams now review the feedback they received and iterate on their agent. Check the Issues tab for feedback about your group.</aside>
+      </section>
+
+      <!-- SLIDE 21: Phase 4 - Common Issues -->
+      <section class="fbf-slide theme-white">
+        <h1>Common Issues &amp; Fixes</h1>
+        <div class="fbf-content">
+          <table class="fbf-table">
+            <thead>
+              <tr>
+                <th>Feedback Received</th>
+                <th>Suggested Fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&ldquo;Too vague&rdquo;</td>
+                <td>Add instructions to quote specific phrases</td>
+              </tr>
+              <tr>
+                <td>&ldquo;Didn&rsquo;t use the rubric&rdquo;</td>
+                <td>Require evaluation of each dimension explicitly</td>
+              </tr>
+              <tr>
+                <td>&ldquo;Too harsh&rdquo;</td>
+                <td>Start with positive observations first</td>
+              </tr>
+              <tr>
+                <td>&ldquo;Not actionable&rdquo;</td>
+                <td>Require concrete revision suggestions with examples</td>
+              </tr>
+              <tr>
+                <td>&ldquo;Too much at once&rdquo;</td>
+                <td>Prioritize the 1&ndash;2 most important issues first</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="gh-link-cards">
+          <a class="gh-link-card" href="https://github.com/madiepev/feedback-agent-hackathon/issues" target="_blank"><i class="ph ph-magnifying-glass"></i> Find Your Feedback</a>
+        </div>
+        <aside class="notes">Show common patterns. Teams should pick 1-3 changes that will have the biggest impact. Test again, iterate until satisfied, then commit v2.</aside>
+      </section>
+
+      <!-- ==================== PHASE 5 ==================== -->
+
+      <!-- SLIDE 22: Phase 5 Divider -->
+      <section class="fbf-slide fbf-v-center theme-green has-fan fan-top-right">
+        <div class="phase-badge">20:40 &ndash; 21:00</div>
+        <h1 class="fbf-title">Phase 5: Community Testing &amp; Reflection</h1>
+        <p class="fbf-subtitle">Test multiple agents and share insights</p>
+        <aside class="notes">Final phase! Open testing for 14 minutes, then vote and debrief. Encourage teams to test as many agents as they can.</aside>
+      </section>
+
+      <!-- SLIDE 23: Phase 5 - Open Testing & Vote -->
+      <section class="fbf-slide theme-light-green">
+        <h1>Open Testing &amp; Vote</h1>
+        <div class="fbf-columns-2 fbf-content">
+          <div class="fbf-icon-block">
+            <i class="ph ph-compass"></i>
+            <h3>Explore Freely (14 min)</h3>
+            <ul class="fbf-bullets">
+              <li>Navigate between teams&rsquo; repositories</li>
+              <li>Test agents with YOUR summary</li>
+              <li>Note what works well and why</li>
+            </ul>
+          </div>
+          <div class="fbf-icon-block">
+            <i class="ph ph-trophy"></i>
+            <h3>Vote for the Best (6 min)</h3>
+            <ul class="fbf-bullets">
+              <li>Go to Discussions: &ldquo;Which agent was most effective?&rdquo;</li>
+              <li>Share which team&rsquo;s agent you liked best</li>
+              <li>Explain <strong>why</strong> it was effective</li>
+            </ul>
+          </div>
+        </div>
+        <div class="gh-link-cards">
+          <a class="gh-link-card" href="https://github.com/madiepev/feedback-agent-hackathon/discussions" target="_blank"><i class="ph ph-chat-circle-dots"></i> Vote in Discussions</a>
+        </div>
+        <aside class="notes">Open testing: participants explore freely. At 20:54, direct everyone to the Discussion to vote. Read 2-3 responses aloud for the debrief.</aside>
+      </section>
+
+      <!-- SLIDE 24: Debrief Questions -->
+      <section class="fbf-slide theme-blue has-fan fan-scattered">
+        <h1>Group Debrief</h1>
+        <div class="fbf-columns-2 fbf-content">
+          <div>
+            <h3><i class="ph ph-star"></i> What Worked?</h3>
+            <ul class="fbf-bullets">
+              <li>Common patterns in top agents?</li>
+              <li>Specific features that stood out?</li>
+              <li>Any surprising approaches?</li>
+            </ul>
+          </div>
+          <div>
+            <h3><i class="ph ph-brain"></i> What Did You Learn?</h3>
+            <ul class="fbf-bullets">
+              <li>What&rsquo;s easy vs. hard for AI?</li>
+              <li>What do humans still do better?</li>
+              <li>How would you design differently now?</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="notes">Facilitate the closing discussion. Highlight how different teams valued different features. Connect to the research: feedback features (specificity, tone, etc.) impact usefulness differently for different learners.</aside>
+      </section>
+
+      <!-- SLIDE 25: What You Accomplished -->
+      <section class="fbf-slide theme-white">
+        <h1>What You Accomplished</h1>
+        <div class="fbf-content fbf-content-centered">
+          <div class="accomplishment-list">
+            <ul class="fbf-bullets">
+              <li>Experienced the challenge of giving good feedback</li>
+              <li>Learned a research-based rubric for science writing</li>
+              <li>Designed an AI agent with specific behavioral instructions</li>
+              <li>Evaluated others&rsquo; agents using feedback research dimensions</li>
+              <li>Iterated based on user feedback</li>
+              <li>Explored what makes AI feedback effective</li>
+            </ul>
+          </div>
+          <div class="fbf-callout">Your designs help us understand what learners value in AI-powered feedback systems.</div>
+        </div>
+        <aside class="notes">Wrap up. Thank participants. Mention findings will be shared at ICERI2026. Encourage continued experimentation with Copilot instructions.</aside>
+      </section>
+
+      <!-- SLIDE 26: Thank You -->
+      <section class="fbf-slide fbf-centered theme-green has-fan fan-scattered">
+        <div class="fbf-logo-row">
+          <img src="https://media.staging.feedbackfruits.com/641e400b-0752-44db-8138-c32286fc87ef.png" alt="FeedbackFruits" class="fbf-logo">
+          <span class="logo-separator">&times;</span>
+          <img src="assets/amstechweek-logo-white.png" alt="Amsterdam Tech Week" class="cohost-logo">
+        </div>
+        <h1 class="fbf-title">Thank You!</h1>
+        <p class="fbf-subtitle">Keep experimenting &mdash; this is a powerful way to customize AI behavior</p>
+        <aside class="notes">Final thank you. Remind about research details in CONSENT.md. Encourage continued experimentation with GitHub Copilot instructions.</aside>
+      </section>
+
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 960,
+      height: 540,
+      margin: 0,
+      center: false,
+      controls: false,
+      hash: true,
+      pdfSeparateFragments: false,
+      pdfMaxPagesPerSlide: 1
+    });
+  </script>
+</body>
+</html>
